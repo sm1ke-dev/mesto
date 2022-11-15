@@ -10,12 +10,12 @@
 
 @media screen and (max-width: 896px) {
   .page {
-    padding: 0 40px;
+    padding: 0 35px;
   }
 }
 
 @media screen and (max-width: 544px) {
   .page {
-    padding: 0 27px;
+    padding: 0 19px;
   }
 }
