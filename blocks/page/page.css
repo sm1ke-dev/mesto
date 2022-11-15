@@ -7,3 +7,15 @@
   font-weight: 400;
   color: #fff;
 }
+
+@media screen and (max-width: 896px) {
+  .page {
+    padding: 0 40px;
+  }
+}
+
+@media screen and (max-width: 544px) {
+  .page {
+    padding: 0 27px;
+  }
+}
