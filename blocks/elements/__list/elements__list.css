@@ -1,6 +1,6 @@
 .elements__list {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   flex-wrap: wrap;
   column-gap: 17px;
   row-gap: 20px;

@@ -9,6 +9,12 @@
   background-size: cover;
   border: none;
   padding: 0;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.popup__reset:hover {
+  opacity: .6;
 }
 
 @media screen and (max-width: 574px) {

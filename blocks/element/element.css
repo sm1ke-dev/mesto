@@ -1,5 +1,5 @@
 .element {
-  max-width: 300px;
+  max-width: 320px;
   flex-basis: 225px;
   flex-grow: 1;
   display: flex;
