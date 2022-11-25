@@ -1,4 +1,4 @@
-.popup__reset {
+.popup__reset-button {
   width: 32px;
   height: 32px;
   position: absolute;
@@ -13,32 +13,32 @@
   transition: .3s;
 }
 
-.popup__reset:hover {
+.popup__reset-button:hover {
   opacity: .6;
 }
 
 @media screen and (max-width: 574px) {
-  .popup__reset {
+  .popup__reset-button {
     left: 363px;
   }
 }
 
 @media screen and (max-width: 468px) {
-  .popup__reset {
+  .popup__reset-button {
     left: 314px;
     top: -150px;
   }
 }
 
 @media screen and (max-width: 420px) {
-  .popup__reset {
+  .popup__reset-button {
     left: 280px;
     top: -162px;
   }
 }
 
 @media screen and (max-width: 372px) {
-  .popup__reset {
+  .popup__reset-button {
     width: 20px;
     height: 20px;
     left: 239px;
