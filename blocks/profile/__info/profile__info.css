@@ -1,5 +1,6 @@
 .profile__info {
   margin-left: 30px;
+  overflow: hidden;
 }
 
 @media screen and (max-width: 896px) {
@@ -10,6 +11,7 @@
 
 @media screen and (max-width: 700px) {
   .profile__info {
+    max-width: 100%;
     margin: 26px 0 0;
   }
 }

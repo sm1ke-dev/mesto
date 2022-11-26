@@ -2,8 +2,8 @@
   width: 32px;
   height: 32px;
   position: absolute;
-  top: -145px;
-  left: 401px;
+  top: -39px;
+  left: 438px;
   background-color: rgba(0, 0, 0, 0);
   background-image: url(../../../images/Vector_close.svg);
   background-size: cover;
@@ -17,31 +17,18 @@
   opacity: .6;
 }
 
-@media screen and (max-width: 574px) {
+@media screen and (max-width: 580px) {
   .popup__reset-button {
-    left: 363px;
+    left: 398px;
+    top: -47px
   }
 }
 
 @media screen and (max-width: 468px) {
   .popup__reset-button {
-    left: 314px;
-    top: -150px;
-  }
-}
-
-@media screen and (max-width: 420px) {
-  .popup__reset-button {
-    left: 280px;
-    top: -162px;
-  }
-}
-
-@media screen and (max-width: 372px) {
-  .popup__reset-button {
     width: 20px;
     height: 20px;
-    left: 239px;
-    top: -150px;
+    left: 261px;
+    top: -36px;
   }
 }
