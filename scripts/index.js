@@ -82,6 +82,10 @@ function handleImageAddingFormSubmit(evt) {
     newCard.querySelector('.element__name').textContent = imageNameInput.value;
     newCard.querySelector('.element__image').src = imageLinkInput.value;
 
+    newCard.querySelector('.element__like-button').addEventListener('click', function(evt) {
+      evt.target.classList.toggle('element__like-button_is-active');
+    });
+
     cardContainer.prepend(newCard);
 
     imageNameInput.value = '';
@@ -94,6 +98,10 @@ function generateCard(card) {
 
   newCard.querySelector('.element__name').textContent = card.name;
   newCard.querySelector('.element__image').src = card.link;
+
+  newCard.querySelector('.element__like-button').addEventListener('click', function(evt) {
+    evt.target.classList.toggle('element__like-button_is-active');
+  });
 
   return newCard;
 }
