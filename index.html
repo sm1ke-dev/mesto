@@ -39,25 +39,25 @@
 
     <section class="popup">
       <div class="popup__container">
-          <h2 class="popup__title">Редактировать профиль</h2>
-          <button type="reset" class="popup__reset-button"></button>
-          <form name="update-info" class="popup__input">
-            <input name="update-name" type="text" class="popup__text popup__text_changed_name" placeholder="Имя">
-            <input name="update-job" type="text" class="popup__text popup__text_changed_job" placeholder="О себе">
-            <button type="submit" class="popup__submit-button">Сохранить</button>
-          </form>
+        <button type="reset" class="popup__reset-button popup__reset-button_close_main-popups"></button>
+        <h2 class="popup__title">Редактировать профиль</h2>
+        <form name="update-info" class="popup__input">
+          <input name="update-name" type="text" class="popup__text popup__text_changed_name" placeholder="Имя">
+          <input name="update-job" type="text" class="popup__text popup__text_changed_job" placeholder="О себе">
+          <button type="submit" class="popup__submit-button">Сохранить</button>
+        </form>
       </div>
     </section>
 
     <section class="popup popup_section_image">
       <div class="popup__container">
-          <h2 class="popup__title">Новое место</h2>
-          <button type="reset" class="popup__reset-button popup__reset-button_section_image"></button>
-          <form name="update-image" class="popup__input">
-            <input name="update-image-name" type="text" class="popup__text popup__text_changed_image-name" placeholder="Название">
-            <input name="update-link" type="text" class="popup__text popup__text_changed_link" placeholder="Ссылка на картинку">
-            <button type="submit" class="popup__submit-button">Создать</button>
-          </form>
+        <button type="reset" class="popup__reset-button popup__reset-button_close_main-popups"></button>
+        <h2 class="popup__title">Новое место</h2>
+        <form name="update-image" class="popup__input">
+          <input name="update-image-name" type="text" class="popup__text popup__text_changed_image-name" placeholder="Название">
+          <input name="update-link" type="text" class="popup__text popup__text_changed_link" placeholder="Ссылка на картинку">
+          <button type="submit" class="popup__submit-button">Создать</button>
+        </form>
       </div>
     </section>
   </div>
@@ -69,6 +69,13 @@
       <div class="element__info-wrapper">
         <h2 class="element__name"></h2>
         <button type="button" class="element__like-button"></button>
+      </div>
+      <div class="popup">
+        <div class="popup__image-container">
+          <button type="reset" class="popup__reset-button popup__reset-button_close_image-popups"></button>
+          <img src="" alt="Картинка" class="popup__image">
+          <p class="popup__image-title"></p>
+        </div>
       </div>
     </li>
   </template>

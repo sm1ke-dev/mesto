@@ -32,6 +32,9 @@
 @import url(../blocks/element/__name/element__name.css);
 @import url(../blocks/element/__like-button/element__like-button.css);
 @import url(../blocks/element/__like-button/_is-active/element__like-button_is-active.css);
+@import url(../blocks/popup/__image-container/popup__image-container.css);
+@import url(../blocks/popup/__image/popup__image.css);
+@import url(../blocks/popup/__image-title/popup__image-title.css);
 
 @import url(../blocks/page/__footer/page__footer.css);
 @import url(../blocks/footer/footer.css);
@@ -47,10 +50,11 @@
 @import url(../blocks/popup/__text/_changed_job/popup__text_changed_job.css);
 @import url(../blocks/popup/__submit-button/popup__submit-button.css);
 @import url(../blocks/popup/__reset-button/popup__reset-button.css);
+@import url(../blocks/popup/__reset-button/_close_main-popups/popup__reset-button_close_main-popups.css);
+@import url(../blocks/popup/__reset-button/_close_image-popups/popup__reset-button_close_image-popups.css);
 @import url(../blocks/popup/_opened/popup_opened.css);
 
 @import url(../blocks/popup/_section_image/popup_section_image.css);
-@import url(../blocks/popup/__reset-button/_section_image/popup__reset-button_section_image.css);
 @import url(../blocks/popup/__text/_changed_image-name/popup__text_changed_image-name.css);
 @import url(../blocks/popup/__text/_changed_link/popup__text_changed_link.css);
 
