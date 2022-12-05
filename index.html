@@ -19,11 +19,11 @@
         <div class="profile__info">
           <div class="profile__name-wrapper">
             <h1 class="profile__name">Жак-Ив Кусто</h1>
-            <button type="button" class="profile__edit-button"></button>
+            <button type="button" class="profile__edit-button" aria-label="open-popup"></button>
           </div>
           <p class="profile__about">Исследователь океана</p>
         </div>
-        <button type="button" class="profile__add-button"></button>
+        <button type="button" class="profile__add-button" aria-label="open-popup"></button>
       </section>
 
       <section class="elements content__elements">
@@ -37,13 +37,13 @@
       <p class="footer__info">&copy;&nbsp;2020 Mesto Russia</p>
     </footer>
 
-    <section class="popup">
+    <section class="popup popup_section_info">
       <div class="popup__container">
-        <button type="reset" class="popup__reset-button popup__reset-button_close_main-popups"></button>
+        <button type="reset" class="popup__reset-button popup__reset-button_close_main-popups" aria-label="close-popup"></button>
         <h2 class="popup__title">Редактировать профиль</h2>
         <form name="update-info" class="popup__input">
-          <input name="update-name" type="text" class="popup__text popup__text_changed_name" placeholder="Имя">
-          <input name="update-job" type="text" class="popup__text popup__text_changed_job" placeholder="О себе">
+          <input name="update-name" type="text" required class="popup__text popup__text_changed_name" placeholder="Имя">
+          <input name="update-job" type="text" required class="popup__text popup__text_changed_job" placeholder="О себе">
           <button type="submit" class="popup__submit-button">Сохранить</button>
         </form>
       </div>
@@ -51,11 +51,11 @@
 
     <section class="popup popup_section_image">
       <div class="popup__container">
-        <button type="reset" class="popup__reset-button popup__reset-button_close_main-popups"></button>
+        <button type="reset" class="popup__reset-button popup__reset-button_close_main-popups" aria-label="close-popup"></button>
         <h2 class="popup__title">Новое место</h2>
         <form name="update-image" class="popup__input">
-          <input name="update-image-name" type="text" class="popup__text popup__text_changed_image-name" placeholder="Название">
-          <input name="update-link" type="text" class="popup__text popup__text_changed_link" placeholder="Ссылка на картинку">
+          <input name="update-image-name" type="text" required class="popup__text popup__text_changed_image-name" placeholder="Название">
+          <input name="update-link" type="url" required class="popup__text popup__text_changed_link" placeholder="Ссылка на картинку">
           <button type="submit" class="popup__submit-button">Создать</button>
         </form>
       </div>
@@ -64,15 +64,15 @@
 
   <template id="card-template">
     <li class="element elements__element">
-      <button type="button" class="element__trash-button"></button>
+      <button type="button" class="element__trash-button" aria-label="remove-element"></button>
       <img src="#" alt="Картинка" class="element__image">
       <div class="element__info-wrapper">
         <h2 class="element__name"></h2>
-        <button type="button" class="element__like-button"></button>
+        <button type="button" class="element__like-button" aria-label="like-button"></button>
       </div>
-      <div class="popup">
+      <div class="popup popup_section_card">
         <div class="popup__image-container">
-          <button type="reset" class="popup__reset-button popup__reset-button_close_image-popups"></button>
+          <button type="reset" class="popup__reset-button popup__reset-button_close_image-popups" aria-label="close-popup"></button>
           <img src="#" alt="Картинка" class="popup__image">
           <p class="popup__image-title"></p>
         </div>
@@ -80,6 +80,7 @@
     </li>
   </template>
 
-  <script src="./scripts/index.js"></script>
+  <script defer src="./scripts/cards.js"></script>
+  <script defer src="./scripts/index.js"></script>
 </body>
 </html>
