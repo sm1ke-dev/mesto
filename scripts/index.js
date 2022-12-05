@@ -17,30 +17,31 @@ const cardTemplate = document.querySelector('#card-template').content.querySelec
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
-
-  if (popup === popupNameChange) {
-    nameInput.value = profileName.textContent;
-    jobInput.value = profileAbout.textContent;
-  }
 }
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
 }
 
-function handleFormSubmit(form) {               // Добавил ещё общий обработчик событий на формы
-  if (form === formNameChange) {
+function handleNameChangingFormSubmit(evt) {
+  evt.preventDefault();
+
+  if (nameInput.value.length > 0 && jobInput.value.length > 0) {
     closePopup(popupNameChange);
 
     profileName.textContent = nameInput.value;
     profileAbout.textContent = jobInput.value;
-  } else if (form === formAddImage) {
-    closePopup(popupAddImage);
-
-    cardContainer.prepend(generateCard(imageNameInput.value, imageLinkInput.value));
-
-    form.reset();
   }
+}
+
+function handleImageAddingFormSubmit(evt) {
+  evt.preventDefault();
+
+  closePopup(popupAddImage);
+
+  cardContainer.prepend(generateCard(imageNameInput.value, imageLinkInput.value));
+
+  form.reset();
 }
 
 function generateCard(name, link) {
@@ -53,6 +54,7 @@ function generateCard(name, link) {
 
   newCard.querySelector('.element__name').textContent = name;
   popupOpeningImage.src = link;
+  popupOpeningImage.alt = name;
 
   newCard.querySelector('.element__like-button').addEventListener('click', (evt) => {
     evt.target.classList.toggle('element__like-button_is-active');
@@ -63,6 +65,7 @@ function generateCard(name, link) {
   popupOpeningImage.addEventListener('click', () => {
     openPopup(imagePopup);
     imagePopup.querySelector('.popup__image').src = popupOpeningImage.src;
+    imagePopup.querySelector('.popup__image').alt = name;
     imagePopup.querySelector('.popup__image-title').textContent = cardTitle.textContent;
   });
 
@@ -79,17 +82,16 @@ initialCards.forEach((card) => {
   addCard(card.name, card.link);
 })
 
-openButtonNamePopup.addEventListener('click', () => openPopup(popupNameChange));
+openButtonNamePopup.addEventListener('click', () => {
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileAbout.textContent;
+
+  openPopup(popupNameChange);
+});
 closeButtonNamePopup.addEventListener('click', () => closePopup(popupNameChange));
 
 openButtonImagePopup.addEventListener('click', () => openPopup(popupAddImage));
 closeButtonImagePopup.addEventListener('click', () => closePopup(popupAddImage));
 
-formNameChange.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  handleFormSubmit(formNameChange);
-});
-formAddImage.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  handleFormSubmit(formAddImage);
-});
+formNameChange.addEventListener('submit', handleNameChangingFormSubmit);
+formAddImage.addEventListener('submit', handleImageAddingFormSubmit);

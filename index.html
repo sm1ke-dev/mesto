@@ -19,11 +19,11 @@
         <div class="profile__info">
           <div class="profile__name-wrapper">
             <h1 class="profile__name">Жак-Ив Кусто</h1>
-            <button type="button" class="profile__edit-button" aria-label="open-popup"></button>
+            <button type="button" class="profile__edit-button" aria-label="Открытие попапа профиля"></button>
           </div>
           <p class="profile__about">Исследователь океана</p>
         </div>
-        <button type="button" class="profile__add-button" aria-label="open-popup"></button>
+        <button type="button" class="profile__add-button" aria-label="Открытие попапа, добавляющего карточки"></button>
       </section>
 
       <section class="elements content__elements">
@@ -39,7 +39,7 @@
 
     <section class="popup popup_section_info">
       <div class="popup__container">
-        <button type="reset" class="popup__reset-button popup__reset-button_close_main-popups" aria-label="close-popup"></button>
+        <button type="reset" class="popup__reset-button popup__reset-button_close_main-popups" aria-label="Закрытие попапа профиля"></button>
         <h2 class="popup__title">Редактировать профиль</h2>
         <form name="update-info" class="popup__input">
           <input name="update-name" type="text" required class="popup__text popup__text_changed_name" placeholder="Имя">
@@ -51,7 +51,7 @@
 
     <section class="popup popup_section_image">
       <div class="popup__container">
-        <button type="reset" class="popup__reset-button popup__reset-button_close_main-popups" aria-label="close-popup"></button>
+        <button type="reset" class="popup__reset-button popup__reset-button_close_main-popups" aria-label="Закрытие попапа, добавляющего карточки"></button>
         <h2 class="popup__title">Новое место</h2>
         <form name="update-image" class="popup__input">
           <input name="update-image-name" type="text" required class="popup__text popup__text_changed_image-name" placeholder="Название">
@@ -63,7 +63,7 @@
 
     <div class="popup popup_section_card">
       <div class="popup__image-container">
-        <button type="reset" class="popup__reset-button popup__reset-button_close_image-popups" aria-label="close-popup"></button>
+        <button type="reset" class="popup__reset-button popup__reset-button_close_image-popups" aria-label="Закрытие попапа просмотра карточки"></button>
         <img src="#" alt="Картинка" class="popup__image">
         <p class="popup__image-title"></p>
       </div>
@@ -72,11 +72,11 @@
 
   <template id="card-template">
     <li class="element elements__element">
-      <button type="button" class="element__trash-button" aria-label="remove-element"></button>
+      <button type="button" class="element__trash-button" aria-label="Кнопка удаления карточки"></button>
       <img src="#" alt="Картинка" class="element__image">
       <div class="element__info-wrapper">
         <h2 class="element__name"></h2>
-        <button type="button" class="element__like-button" aria-label="like-button"></button>
+        <button type="button" class="element__like-button" aria-label="Кнопка лайка карточки"></button>
       </div>
     </li>
   </template>
