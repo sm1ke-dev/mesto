@@ -81,9 +81,9 @@ function generateCard(card) {
   const newCard = cardTemplate.cloneNode(true);
   const deleteButton = newCard.querySelector('.element__trash-button');
   const cardTitle = newCard.querySelector('.element__name');
-  const imagePopup = newCard.querySelector('.popup');
+  const imagePopup = document.querySelector('.popup_section_card');
   const popupOpeningImage = newCard.querySelector('.element__image');
-  const popupClosingButton = newCard.querySelector('.popup__reset-button_close_image-popups');
+  const popupClosingButton = imagePopup.querySelector('.popup__reset-button_close_image-popups');
 
   newCard.querySelector('.element__name').textContent = card.name;
   newCard.querySelector('.element__image').src = card.link;
@@ -96,8 +96,8 @@ function generateCard(card) {
 
   popupOpeningImage.addEventListener('click', () => {
     openPopup(imagePopup);
-    newCard.querySelector('.popup__image').src = popupOpeningImage.src;
-    newCard.querySelector('.popup__image-title').textContent = cardTitle.textContent;
+    imagePopup.querySelector('.popup__image').src = popupOpeningImage.src;
+    imagePopup.querySelector('.popup__image-title').textContent = cardTitle.textContent;
   });
 
   popupClosingButton.addEventListener('click', () => closePopup(imagePopup));
