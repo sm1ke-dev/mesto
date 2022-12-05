@@ -26,12 +26,10 @@ function closePopup(popup) {
 function handleNameChangingFormSubmit(evt) {
   evt.preventDefault();
 
-  if (nameInput.value.length > 0 && jobInput.value.length > 0) {
-    closePopup(popupNameChange);
+  closePopup(popupNameChange);
 
-    profileName.textContent = nameInput.value;
-    profileAbout.textContent = jobInput.value;
-  }
+  profileName.textContent = nameInput.value;
+  profileAbout.textContent = jobInput.value;
 }
 
 function handleImageAddingFormSubmit(evt) {
