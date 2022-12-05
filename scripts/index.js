@@ -18,7 +18,7 @@ const cardTemplate = document.querySelector('#card-template').content.querySelec
 function openPopup(popup) {
   popup.classList.add('popup_opened');
 
-  if (popup.classList.contains('popup_section_info')) {
+  if (popup === popupNameChange) {
     nameInput.value = profileName.textContent;
     jobInput.value = profileAbout.textContent;
   }
@@ -28,56 +28,22 @@ function closePopup(popup) {
   popup.classList.remove('popup_opened');
 }
 
-function handleNameChangingFormSubmit(evt) {
-  evt.preventDefault();
-
-  if (nameInput.value.length > 0 && jobInput.value.length > 0) {
+function handleFormSubmit(form) {               // Добавил ещё общий обработчик событий на формы
+  if (form === formNameChange) {
     closePopup(popupNameChange);
+
     profileName.textContent = nameInput.value;
     profileAbout.textContent = jobInput.value;
-  }
-}
-
-function handleImageAddingFormSubmit(evt) {
-  evt.preventDefault();
-
-  if (imageNameInput.value.length > 0 && imageLinkInput.value.length > 0) {
+  } else if (form === formAddImage) {
     closePopup(popupAddImage);
 
-    const newCard = cardTemplate.cloneNode(true);
-    const deleteButton = newCard.querySelector('.element__trash-button');
-    const cardTitle = newCard.querySelector('.element__name');
-    const imagePopup = newCard.querySelector('.popup');
-    const popupOpeningImage = newCard.querySelector('.element__image');
-    const popupClosingButton = newCard.querySelector('.popup__reset-button_close_image-popups');
+    cardContainer.prepend(generateCard(imageNameInput.value, imageLinkInput.value));
 
-    newCard.querySelector('.element__name').textContent = imageNameInput.value;
-    newCard.querySelector('.element__image').src = imageLinkInput.value;
-
-    newCard.querySelector('.element__like-button').addEventListener('click', (evt) => {
-      evt.target.classList.toggle('element__like-button_is-active');
-    });
-
-    deleteButton.addEventListener('click', () => {
-      deleteButton.closest('.element').remove();
-    });
-
-    popupOpeningImage.addEventListener('click', () => {
-      openPopup(imagePopup);
-      newCard.querySelector('.popup__image').src = popupOpeningImage.src;
-      newCard.querySelector('.popup__image-title').textContent = cardTitle.textContent;
-    });
-
-    popupClosingButton.addEventListener('click', () => closePopup(imagePopup));
-
-    cardContainer.prepend(newCard);
-
-    imageNameInput.value = '';
-    imageLinkInput.value = '';
+    form.reset();
   }
 }
 
-function generateCard(card) {
+function generateCard(name, link) {
   const newCard = cardTemplate.cloneNode(true);
   const deleteButton = newCard.querySelector('.element__trash-button');
   const cardTitle = newCard.querySelector('.element__name');
@@ -85,14 +51,14 @@ function generateCard(card) {
   const popupOpeningImage = newCard.querySelector('.element__image');
   const popupClosingButton = imagePopup.querySelector('.popup__reset-button_close_image-popups');
 
-  newCard.querySelector('.element__name').textContent = card.name;
-  newCard.querySelector('.element__image').src = card.link;
+  newCard.querySelector('.element__name').textContent = name;
+  popupOpeningImage.src = link;
 
   newCard.querySelector('.element__like-button').addEventListener('click', (evt) => {
     evt.target.classList.toggle('element__like-button_is-active');
   });
 
-  deleteButton.addEventListener('click', () => deleteButton.closest('.element').remove());
+  deleteButton.addEventListener('click', () => newCard.remove());
 
   popupOpeningImage.addEventListener('click', () => {
     openPopup(imagePopup);
@@ -105,12 +71,12 @@ function generateCard(card) {
   return newCard;
 }
 
-function addCards(card) {
-  cardContainer.prepend(generateCard(card));
+function addCard(name, link) {
+  cardContainer.prepend(generateCard(name, link));
 }
 
 initialCards.forEach((card) => {
-  addCards(card);
+  addCard(card.name, card.link);
 })
 
 openButtonNamePopup.addEventListener('click', () => openPopup(popupNameChange));
@@ -119,6 +85,11 @@ closeButtonNamePopup.addEventListener('click', () => closePopup(popupNameChange)
 openButtonImagePopup.addEventListener('click', () => openPopup(popupAddImage));
 closeButtonImagePopup.addEventListener('click', () => closePopup(popupAddImage));
 
-formNameChange.addEventListener('submit', handleNameChangingFormSubmit);
-formAddImage.addEventListener('submit', handleImageAddingFormSubmit);
-
+formNameChange.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  handleFormSubmit(formNameChange);
+});
+formAddImage.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  handleFormSubmit(formAddImage);
+});
