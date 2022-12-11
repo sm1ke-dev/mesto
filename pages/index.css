@@ -46,10 +46,10 @@
 @import url(../blocks/popup/__container/popup__container.css);
 @import url(../blocks/popup/__content/popup__content.css);
 @import url(../blocks/popup/__title/popup__title.css);
+@import url(../blocks/popup/__form/popup__form.css);
 @import url(../blocks/popup/__input/popup__input.css);
-@import url(../blocks/popup/__text/popup__text.css);
-@import url(../blocks/popup/__text/_changed_name/popup__text_changed_name.css);
-@import url(../blocks/popup/__text/_changed_job/popup__text_changed_job.css);
+@import url(../blocks/popup/__input/_changed_name/popup__input_changed_name.css);
+@import url(../blocks/popup/__input/_changed_job/popup__input_changed_job.css);
 @import url(../blocks/popup/__submit-button/popup__submit-button.css);
 @import url(../blocks/popup/__reset-button/popup__reset-button.css);
 @import url(../blocks/popup/__reset-button/_close_main-popups/popup__reset-button_close_main-popups.css);
@@ -57,6 +57,6 @@
 @import url(../blocks/popup/_opened/popup_opened.css);
 
 @import url(../blocks/popup/_section_image/popup_section_image.css);
-@import url(../blocks/popup/__text/_changed_image-name/popup__text_changed_image-name.css);
-@import url(../blocks/popup/__text/_changed_link/popup__text_changed_link.css);
+@import url(../blocks/popup/__input/_changed_image-name/popup__input_changed_image-name.css);
+@import url(../blocks/popup/__input/_changed_link/popup__input_changed_link.css);
 

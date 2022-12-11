@@ -1,4 +1,18 @@
 .popup__input {
-  display: flex;
-  flex-direction: column;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, .2);
+  font-size: 14px;
+  line-height: 17px;
+  height: 34px;
+  padding: 0;
+}
+
+.popup__input:first-child {
+  margin-bottom: 21px;
+}
+
+@media screen and (max-width: 468px) {
+  .popup__input:first-child {
+    margin-bottom: 23px;
+  }
 }
