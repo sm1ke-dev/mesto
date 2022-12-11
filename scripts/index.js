@@ -15,15 +15,15 @@ const imageLinkInput = popupAddImage.querySelector('.popup__text_changed_link');
 const cardContainer = document.querySelector('.elements__list');
 const cardTemplate = document.querySelector('#card-template').content.querySelector('.element');
 
-function openPopup(popup) {
+const openPopup = (popup) => {
   popup.classList.add('popup_opened');
 }
 
-function closePopup(popup) {
+const closePopup = (popup) => {
   popup.classList.remove('popup_opened');
 }
 
-function handleNameChangingFormSubmit(evt) {
+const handleNameChangingFormSubmit = (evt) => {
   evt.preventDefault();
 
   closePopup(popupNameChange);
@@ -32,7 +32,7 @@ function handleNameChangingFormSubmit(evt) {
   profileAbout.textContent = jobInput.value;
 }
 
-function handleImageAddingFormSubmit(evt) {
+const handleImageAddingFormSubmit = (evt) => {
   evt.preventDefault();
 
   closePopup(popupAddImage);
@@ -42,7 +42,7 @@ function handleImageAddingFormSubmit(evt) {
   form.reset();
 }
 
-function generateCard(name, link) {
+const generateCard = (name, link) => {
   const newCard = cardTemplate.cloneNode(true);
   const deleteButton = newCard.querySelector('.element__trash-button');
   const cardTitle = newCard.querySelector('.element__name');
@@ -72,7 +72,7 @@ function generateCard(name, link) {
   return newCard;
 }
 
-function addCard(name, link) {
+const addCard = (name, link) => {
   cardContainer.prepend(generateCard(name, link));
 }
 
