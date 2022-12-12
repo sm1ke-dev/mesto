@@ -32,9 +32,7 @@ const handleNameChangingFormSubmit = (evt) => {
   profileAbout.textContent = jobInput.value;
 }
 
-const handleImageAddingFormSubmit = (evt) => {
-  evt.preventDefault();
-
+const handleImageAddingFormSubmit = (form) => {
   closePopup(popupAddImage);
 
   cardContainer.prepend(generateCard(imageNameInput.value, imageLinkInput.value));
@@ -92,4 +90,7 @@ openButtonImagePopup.addEventListener('click', () => openPopup(popupAddImage));
 closeButtonImagePopup.addEventListener('click', () => closePopup(popupAddImage));
 
 formNameChange.addEventListener('submit', handleNameChangingFormSubmit);
-formAddImage.addEventListener('submit', handleImageAddingFormSubmit);
+formAddImage.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  handleImageAddingFormSubmit(formAddImage);
+});
