@@ -14,13 +14,26 @@ const imageNameInput = popupAddImage.querySelector('.popup__input_changed_image-
 const imageLinkInput = popupAddImage.querySelector('.popup__input_changed_link');
 const cardContainer = document.querySelector('.elements__list');
 const cardTemplate = document.querySelector('#card-template').content.querySelector('.element');
+const popups = [...document.querySelectorAll('.popup')];
+
+const handleKeyDown = (evt) => {
+  if (evt.key === 'Escape') {
+    const openedPopup = document.querySelector('.popup_opened');
+
+    closePopup(openedPopup);
+  }
+};
 
 const openPopup = (popup) => {
-  popup.classList.add('popup_opened');
+  popup.classList.add('popup_opened');;
+
+  document.addEventListener('keydown', handleKeyDown);
 }
 
 const closePopup = (popup) => {
   popup.classList.remove('popup_opened');
+
+  document.removeEventListener('keydown', handleKeyDown);
 }
 
 const handleNameChangingFormSubmit = (evt) => {
@@ -93,4 +106,12 @@ formNameChange.addEventListener('submit', handleNameChangingFormSubmit);
 formAddImage.addEventListener('submit', (evt) => {
   evt.preventDefault();
   handleImageAddingFormSubmit(formAddImage);
+});
+
+popups.forEach(popup => {
+  popup.addEventListener('click', (evt) => {
+    if (!evt.target.closest('.popup__container')) {
+      closePopup(popup);
+    }
+  });
 });
