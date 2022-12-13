@@ -47,14 +47,18 @@ const handleNameChangingFormSubmit = (evt) => {
 }
 
 const handleImageAddingFormSubmit = (form) => {
+  const card = {};
+  card.name = imageNameInput.value;
+  card.link = imageLinkInput.value;
+
   closePopup(popupAddImage);
 
-  cardContainer.prepend(generateCard(imageNameInput.value, imageLinkInput.value));
+  addCard(card);
 
   form.reset();
 }
 
-const generateCard = (name, link) => {
+const generateCard = (card) => {
   const newCard = cardTemplate.cloneNode(true);
   const deleteButton = newCard.querySelector('.element__trash-button');
   const cardTitle = newCard.querySelector('.element__name');
@@ -64,9 +68,9 @@ const generateCard = (name, link) => {
   const openedImage = imagePopup.querySelector('.popup__image');
   const imageTitle = imagePopup.querySelector('.popup__image-title');
 
-  newCard.querySelector('.element__name').textContent = name;
-  popupOpeningImage.src = link;
-  popupOpeningImage.alt = name;
+  newCard.querySelector('.element__name').textContent = card.name;
+  popupOpeningImage.src = card.link;
+  popupOpeningImage.alt = card.name;
 
   newCard.querySelector('.element__like-button').addEventListener('click', (evt) => {
     evt.target.classList.toggle('element__like-button_is-active');
@@ -76,7 +80,7 @@ const generateCard = (name, link) => {
 
   popupOpeningImage.addEventListener('click', () => {
     openedImage.src = popupOpeningImage.src;
-    openedImage.alt = name;
+    openedImage.alt = card.name;
     imageTitle.textContent = cardTitle.textContent;
     openPopup(imagePopup);
   });
@@ -86,12 +90,12 @@ const generateCard = (name, link) => {
   return newCard;
 }
 
-const addCard = (name, link) => {
-  cardContainer.prepend(generateCard(name, link));
+const addCard = (card) => {
+  cardContainer.prepend(generateCard(card));
 }
 
 initialCards.forEach((card) => {
-  addCard(card.name, card.link);
+  addCard(card);
 })
 
 openButtonNamePopup.addEventListener('click', () => {
