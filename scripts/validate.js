@@ -38,9 +38,7 @@ const enableValidation = (config) => {
     inputs.forEach(input => {
       const submitButton = form.querySelector(config.submitButtonSelector);
 
-      if (input.classList.contains('popup__input_changed_image-name')) {
-        toggleSubmitButton(inputs, submitButton, config);
-      };
+      input.setAttribute('required', true);
 
       input.addEventListener('input', () => {
         toggleErrorMessages(input, form, config);

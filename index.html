@@ -42,9 +42,9 @@
         <button type="reset" class="popup__reset-button popup__reset-button_close_main-popups" aria-label="Закрытие попапа профиля"></button>
         <h2 class="popup__title">Редактировать профиль</h2>
         <form name="update-info" class="popup__form">
-          <input name="update-name" type="text" required id="username" class="popup__input popup__input_changed_name" minlength="2" maxlength="40" placeholder="Имя">
+          <input name="update-name" type="text" id="username" class="popup__input popup__input_changed_name" minlength="2" maxlength="40" placeholder="Имя">
           <span id="username-error" class="popup__error"></span>
-          <input name="update-job" type="text" required id="about" class="popup__input popup__input_changed_job" minlength="2" maxlength="200" placeholder="О себе">
+          <input name="update-job" type="text" id="about" class="popup__input popup__input_changed_job" minlength="2" maxlength="200" placeholder="О себе">
           <span id="about-error" class="popup__error"></span>
           <button type="submit" class="popup__submit-button">Сохранить</button>
         </form>
@@ -56,9 +56,9 @@
         <button type="reset" class="popup__reset-button popup__reset-button_close_main-popups" aria-label="Закрытие попапа, добавляющего карточки"></button>
         <h2 class="popup__title">Новое место</h2>
         <form name="update-image" class="popup__form">
-          <input name="update-image-name" type="text" required id="cardname" class="popup__input popup__input_changed_image-name" minlength="2" maxlength="30" placeholder="Название">
+          <input name="update-image-name" type="text" id="cardname" class="popup__input popup__input_changed_image-name" minlength="2" maxlength="30" placeholder="Название">
           <span id="cardname-error" class="popup__error"></span>
-          <input name="update-link" type="url" required id="link" class="popup__input popup__input_changed_link" placeholder="Ссылка на картинку">
+          <input name="update-link" type="url" id="link" class="popup__input popup__input_changed_link" placeholder="Ссылка на картинку">
           <span id="link-error" class="popup__error"></span>
           <button type="submit" class="popup__submit-button">Создать</button>
         </form>

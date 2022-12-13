@@ -15,6 +15,7 @@ const imageLinkInput = popupAddImage.querySelector('.popup__input_changed_link')
 const cardContainer = document.querySelector('.elements__list');
 const cardTemplate = document.querySelector('#card-template').content.querySelector('.element');
 const popups = [...document.querySelectorAll('.popup')];
+const imageSubmitButton = popupAddImage.querySelector('.popup__submit-button');
 
 const handleKeyDown = (evt) => {
   if (evt.key === 'Escape') {
@@ -60,6 +61,8 @@ const generateCard = (name, link) => {
   const imagePopup = document.querySelector('.popup_section_card');
   const popupOpeningImage = newCard.querySelector('.element__image');
   const popupClosingButton = imagePopup.querySelector('.popup__reset-button_close_image-popups');
+  const openedImage = imagePopup.querySelector('.popup__image');
+  const imageTitle = imagePopup.querySelector('.popup__image-title');
 
   newCard.querySelector('.element__name').textContent = name;
   popupOpeningImage.src = link;
@@ -72,10 +75,10 @@ const generateCard = (name, link) => {
   deleteButton.addEventListener('click', () => newCard.remove());
 
   popupOpeningImage.addEventListener('click', () => {
+    openedImage.src = popupOpeningImage.src;
+    openedImage.alt = name;
+    imageTitle.textContent = cardTitle.textContent;
     openPopup(imagePopup);
-    imagePopup.querySelector('.popup__image').src = popupOpeningImage.src;
-    imagePopup.querySelector('.popup__image').alt = name;
-    imagePopup.querySelector('.popup__image-title').textContent = cardTitle.textContent;
   });
 
   popupClosingButton.addEventListener('click', () => closePopup(imagePopup));
@@ -99,7 +102,11 @@ openButtonNamePopup.addEventListener('click', () => {
 });
 closeButtonNamePopup.addEventListener('click', () => closePopup(popupNameChange));
 
-openButtonImagePopup.addEventListener('click', () => openPopup(popupAddImage));
+openButtonImagePopup.addEventListener('click', () => {
+  imageSubmitButton.classList.add('popup__submit-button_disabled');
+  imageSubmitButton.disabled = 'disabled';
+  openPopup(popupAddImage)
+});
 closeButtonImagePopup.addEventListener('click', () => closePopup(popupAddImage));
 
 formNameChange.addEventListener('submit', handleNameChangingFormSubmit);
