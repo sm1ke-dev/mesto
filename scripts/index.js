@@ -108,7 +108,7 @@ closeButtonNamePopup.addEventListener('click', () => closePopup(popupNameChange)
 
 openButtonImagePopup.addEventListener('click', () => {
   imageSubmitButton.classList.add('popup__submit-button_disabled');
-  imageSubmitButton.disabled = 'disabled';
+  imageSubmitButton.disabled = true;
   openPopup(popupAddImage)
 });
 closeButtonImagePopup.addEventListener('click', () => closePopup(popupAddImage));

@@ -18,10 +18,10 @@ const toggleSubmitButton = (inputs, submitButton, config) => {
 
   if (isFormValid) {
     submitButton.classList.remove(config.inactiveButtonClass);
-    submitButton.disabled = '';
+    submitButton.disabled = false;
   } else {
     submitButton.classList.add(config.inactiveButtonClass);
-    submitButton.disabled = 'disabled';
+    submitButton.disabled = true;
   };
 };
 
