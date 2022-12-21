@@ -1,5 +1,3 @@
-import { openPopup } from "./index.js";
-
 export const initialCards = [
   {
     name: 'Архыз',
@@ -28,10 +26,11 @@ export const initialCards = [
 ];
 
 export class Card {
-  constructor(card, templateSelector) {
+  constructor(card, templateSelector, handleCardClick) {
     this._name = card.name;
     this._link = card.link;
     this._templateSelector = templateSelector;
+    this._handleCardClick = handleCardClick;
   }
 
   _getTemplate() {
@@ -44,42 +43,30 @@ export class Card {
     return cardElement;
   }
 
-  _setEventListeners(cardImage) {
+  _setEventListeners() {
     this._element.querySelector('.element__like-button').addEventListener('click', (evt) => {
       this._handleLikeButton(evt);
     });
 
     this._element.querySelector('.element__trash-button').addEventListener('click', () => this._element.remove());
 
-    cardImage.addEventListener('click', () => {
-      this._handleImagePopup();
-    });
+    this._cardImage.addEventListener('click', () => this._handleCardClick(this._name, this._link));
   }
 
   _handleLikeButton(evt) {
     evt.target.classList.toggle('element__like-button_is-active');
   }
 
-  _handleImagePopup() {
-    const imagePopup = document.querySelector('.popup_section_card');
-    const openedImage = imagePopup.querySelector('.popup__image');
-
-    openedImage.src = this._link;
-    openedImage.alt = this._name;
-    imagePopup.querySelector('.popup__image-title').textContent = this._name;
-    openPopup(imagePopup);
-  }
-
   generateCard() {
     this._element = this._getTemplate();
-    const cardImage = this._element.querySelector('.element__image');
-    const cardTitle = this._element.querySelector('.element__name');
+    this._cardImage = this._element.querySelector('.element__image');
+    this._cardTitle = this._element.querySelector('.element__name');
 
-    cardTitle.textContent = this._name;
-    cardImage.src = this._link;
-    cardImage.alt = this._name;
+    this._cardTitle.textContent = this._name;
+    this._cardImage.src = this._link;
+    this._cardImage.alt = this._name;
 
-    this._setEventListeners(cardImage);
+    this._setEventListeners();
 
     return this._element;
   }

@@ -1,55 +1,65 @@
-import {disableSubmitButton} from "./index.js";
-
 export class FormValidator {
-  constructor(config, formSelector) {
+  constructor(config, formElement) {
     this._config = config;
-    this._form = formSelector;
+    this._form = formElement;
+    this._inputList = [...this._form.querySelectorAll(this._config.inputSelector)];
+    this._submitButton = this._form.querySelector(this._config.submitButtonSelector);
   }
 
-  _toggleErrorMessages(input) {
-    const error = this._form.querySelector(`#${input.id}-error`);
+  _hideError(inputElement) {
+    inputElement.classList.remove(this._config.inputErrorClass);
+    this._error.classList.remove(this._config.errorClass);
+    this._error.textContent = '';
+  }
 
-    if (input.validity.valid) {
-      input.classList.remove(this._config.inputErrorClass);
-      error.classList.remove(this._config.errorClass);
-      error.textContent = '';
+  _toggleErrorMessages(inputElement) {
+    this._error = this._form.querySelector(`#${inputElement.id}-error`);
+
+    if (inputElement.validity.valid) {
+      this._hideError(inputElement);
     } else {
-      input.classList.add(this._config.inputErrorClass);
-      error.classList.add(this._config.errorClass);
-      error.textContent = input.validationMessage;
+      inputElement.classList.add(this._config.inputErrorClass);
+      this._error.classList.add(this._config.errorClass);
+      this._error.textContent = inputElement.validationMessage;
     };
   }
 
-  _toggleSubmitButton(inputs) {
-    const isFormValid = inputs.every(input => input.validity.valid);
-    const submitButton = this._form.querySelector(this._config.submitButtonSelector);
+  _toggleSubmitButton() {
+    const isFormValid = this._inputList.every(inputElement => inputElement.validity.valid);
 
     if (isFormValid) {
-      submitButton.classList.remove(this._config.inactiveButtonClass);
-      submitButton.disabled = false;
+      this._submitButton.classList.remove(this._config.inactiveButtonClass);
+      this._submitButton.disabled = false;
     } else {
-      disableSubmitButton(submitButton, this._config.inactiveButtonClass);
+      this._submitButton.classList.add(this._config.inactiveButtonClass);
+      this._submitButton.disabled = true;
     };
   }
 
-  _setEventListeners(input, inputs) {
-    this._form.addEventListener('submit', (evt) => {
-      evt.preventDefault();
+  _setEventListeners(inputElement) {
+    inputElement.addEventListener('input', () => {
+      this._toggleErrorMessages(inputElement);
+      this._toggleSubmitButton();
     });
+  }
 
-    input.addEventListener('input', () => {
-      this._toggleErrorMessages(input);
-      this._toggleSubmitButton(inputs);
+  resetValidation() {
+    this._toggleSubmitButton();
+
+    this._inputList.forEach(inputElement => {
+      this._error = this._form.querySelector(`#${inputElement.id}-error`);      //Приходится второй раз искать ошибку, по другому у меня не получается
+
+      this._hideError(inputElement);
     });
   }
 
   enableValidation() {
-    const inputs = [...this._form.querySelectorAll(this._config.inputSelector)];
+    this._form.addEventListener('submit', (evt) => {
+      evt.preventDefault();
+    });
 
-    inputs.forEach(input => {
-      input.setAttribute('required', true);
-
-      this._setEventListeners(input, inputs);
+    this._inputList.forEach(inputElement => {
+      this._setEventListeners(inputElement);
     });
   }
 }
