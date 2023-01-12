@@ -2,8 +2,8 @@ import { initialCards } from "../utils/constants.js";
 import { Card } from "../components/Card.js";
 import { FormValidator } from "../components/FormValidator.js";
 import Section from "../components/Section.js";
-import Popup from "../components/Popup.js";
 import PopupWithImage from "../components/PopupWithImage.js";
+import PopupWithForm from "../components/PopupWithForm.js";
 
 const popupNameChange = document.querySelector('.popup_section_info');
 const openButtonNamePopup = document.querySelector('.profile__edit-button');
@@ -48,25 +48,21 @@ const handleCardClick = (name, link) => {
   popupWithImage.open(name, link);
 }
 
-const handleNameChangingFormSubmit = (evt) => {
-  evt.preventDefault();
+const handleNameChangingFormSubmit = (nameValue, aboutValue) => {
+  nameChangingPopup.close();
 
-  closePopup(popupNameChange);
-
-  profileName.textContent = nameInput.value;
-  profileAbout.textContent = jobInput.value;
+  profileName.textContent = nameValue;
+  profileAbout.textContent = aboutValue;
 }
 
-const handleImageAddingFormSubmit = (form) => {
+const handleImageAddingFormSubmit = (nameValue, linkValue) => {
   const card = {};
-  card.name = imageName.value;
-  card.link = imageLink.value;
+  card.name = nameValue;
+  card.link = linkValue;
 
-  closePopup(popupAddImage);
+  imageAddingPopup.close();
 
   addCard(card);
-
-  form.reset();
 }
 
 const createCard = (item) => {
@@ -88,19 +84,19 @@ openButtonNamePopup.addEventListener('click', () => {
   nameInput.value = profileName.textContent;
   jobInput.value = profileAbout.textContent;
 
-  namePopup.open();
+  nameChangingPopup.open();
 });
 
 openButtonImagePopup.addEventListener('click', () => {
   formValidators['update-image'].resetValidation();
-  openPopup(popupAddImage)
+  imageAddingPopup.open();
 });
 
-formNameChange.addEventListener('submit', handleNameChangingFormSubmit);
-formAddImage.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  handleImageAddingFormSubmit(formAddImage);
-});
+// formNameChange.addEventListener('submit', handleNameChangingFormSubmit);
+// formAddImage.addEventListener('submit', (evt) => {
+//   evt.preventDefault();
+//   handleImageAddingFormSubmit(formAddImage);
+// });
 
 // popups.forEach(popup => {
 //   popup.addEventListener('mousedown', (evt) => {
@@ -146,6 +142,8 @@ const cardList = new Section({
 
 cardList.renderItems();
 
-const namePopup = new Popup(popupNameChange);
+const nameChangingPopup = new PopupWithForm(popupNameChange, handleNameChangingFormSubmit);
 
 const popupWithImage = new PopupWithImage(imagePopup);
+
+const imageAddingPopup = new PopupWithForm(popupAddImage, handleImageAddingFormSubmit);
