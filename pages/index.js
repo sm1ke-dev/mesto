@@ -2,6 +2,7 @@ import { initialCards } from "../utils/constants.js";
 import { Card } from "../components/Card.js";
 import { FormValidator } from "../components/FormValidator.js";
 import Section from "../components/Section.js";
+import Popup from "../components/Popup.js";
 
 const popupNameChange = document.querySelector('.popup_section_info');
 const openButtonNamePopup = document.querySelector('.profile__edit-button');
@@ -22,25 +23,25 @@ const openedImage = imagePopup.querySelector('.popup__image');
 const imageTitle = imagePopup.querySelector('.popup__image-title');
 const formValidators = {};
 
-const handleKeyDown = (evt) => {
-  if (evt.key === 'Escape') {
-    const openedPopup = document.querySelector('.popup_opened');
+// const handleKeyDown = (evt) => {
+//   if (evt.key === 'Escape') {
+//     const openedPopup = document.querySelector('.popup_opened');
 
-    closePopup(openedPopup);
-  }
-};
+//     closePopup(openedPopup);
+//   }
+// };
 
-const openPopup = (popup) => {
-  popup.classList.add('popup_opened');;
+// const openPopup = (popup) => {
+//   popup.classList.add('popup_opened');
 
-  document.addEventListener('keydown', handleKeyDown);
-}
+//   document.addEventListener('keydown', handleKeyDown);
+// }
 
-const closePopup = (popup) => {
-  popup.classList.remove('popup_opened');
+// const closePopup = (popup) => {
+//   popup.classList.remove('popup_opened');
 
-  document.removeEventListener('keydown', handleKeyDown);
-}
+//   document.removeEventListener('keydown', handleKeyDown);
+// }
 
 const handleCardClick = (name, link) => {
   openedImage.src = link;
@@ -89,7 +90,7 @@ openButtonNamePopup.addEventListener('click', () => {
   nameInput.value = profileName.textContent;
   jobInput.value = profileAbout.textContent;
 
-  openPopup(popupNameChange);
+  namePopup.open();
 });
 
 openButtonImagePopup.addEventListener('click', () => {
@@ -103,16 +104,16 @@ formAddImage.addEventListener('submit', (evt) => {
   handleImageAddingFormSubmit(formAddImage);
 });
 
-popups.forEach(popup => {
-  popup.addEventListener('mousedown', (evt) => {
-    if (evt.target.classList.contains('popup_opened')) {
-      closePopup(popup);
-    };
-    if (evt.target.classList.contains('popup__reset-button')) {
-      closePopup(popup);
-    };
-  });
-});
+// popups.forEach(popup => {
+//   popup.addEventListener('mousedown', (evt) => {
+//     if (evt.target.classList.contains('popup_opened')) {
+//       closePopup(popup);
+//     };
+//     if (evt.target.classList.contains('popup__reset-button')) {
+//       closePopup(popup);
+//     };
+//   });
+// });
 
 const enableValidation = (config) => {
   const formList = [...document.querySelectorAll(config.formSelector)];
@@ -146,3 +147,5 @@ const cardList = new Section({
 }, '.elements__list');
 
 cardList.renderItems();
+
+const namePopup = new Popup(popupNameChange);

@@ -10,7 +10,6 @@ export default class Section {
   }
 
   renderItems() {
-    console.log(this._initialCards);
     this._initialCards.forEach(item => {
       this._renderer(item);
     })
