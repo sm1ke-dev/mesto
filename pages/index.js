@@ -1,5 +1,7 @@
-import { initialCards, Card } from "./Card.js";
-import { FormValidator } from "./FormValidator.js";
+import { initialCards } from "../utils/constants.js";
+import { Card } from "../components/Card.js";
+import { FormValidator } from "../components/FormValidator.js";
+import Section from "../components/Section.js";
 
 const popupNameChange = document.querySelector('.popup_section_info');
 const openButtonNamePopup = document.querySelector('.profile__edit-button');
@@ -81,7 +83,7 @@ const addCard = (item) => {;
   elementsList.prepend(cardElement);
 }
 
-initialCards.forEach(addCard);
+// initialCards.forEach(addCard);
 
 openButtonNamePopup.addEventListener('click', () => {
   nameInput.value = profileName.textContent;
@@ -132,3 +134,15 @@ enableValidation({
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__error_visible'
 });
+
+const cardList = new Section({
+  data: initialCards,
+  renderer: (item) => {
+    const card = new Card(item, '#card-template', handleCardClick);
+    const cardElement = card.generateCard();
+
+    cardList.addItem(cardElement);
+  },
+}, '.elements__list');
+
+cardList.renderItems();
