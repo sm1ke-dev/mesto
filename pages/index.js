@@ -3,6 +3,7 @@ import { Card } from "../components/Card.js";
 import { FormValidator } from "../components/FormValidator.js";
 import Section from "../components/Section.js";
 import Popup from "../components/Popup.js";
+import PopupWithImage from "../components/PopupWithImage.js";
 
 const popupNameChange = document.querySelector('.popup_section_info');
 const openButtonNamePopup = document.querySelector('.profile__edit-button');
@@ -44,10 +45,7 @@ const formValidators = {};
 // }
 
 const handleCardClick = (name, link) => {
-  openedImage.src = link;
-  openedImage.alt = name;
-  imageTitle.textContent = name;
-  openPopup(imagePopup);
+  popupWithImage.open(name, link);
 }
 
 const handleNameChangingFormSubmit = (evt) => {
@@ -149,3 +147,5 @@ const cardList = new Section({
 cardList.renderItems();
 
 const namePopup = new Popup(popupNameChange);
+
+const popupWithImage = new PopupWithImage(imagePopup);
