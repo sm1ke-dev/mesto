@@ -1,3 +1,5 @@
+import './pages/index.css';
+
 import {
   popupNameChange,
   openButtonNamePopup,
@@ -9,14 +11,14 @@ import {
   jobInput,
   imagePopup,
   formValidators
-} from "../utils/constants.js";
-import PopupWithImage from "../components/PopupWithImage.js";
-import PopupWithForm from "../components/PopupWithForm.js";
-import UserInfo from "../components/UserInfo.js";
+} from "./utils/constants.js";
+import PopupWithImage from "./components/PopupWithImage.js";
+import PopupWithForm from "./components/PopupWithForm.js";
+import UserInfo from "./components/UserInfo.js";
 import {
   handleNameChangingFormSubmit,
   handleImageAddingFormSubmit
-} from "../utils/utils.js"
+} from "./utils/utils.js"
 
 
 openButtonNamePopup.addEventListener('click', () => {

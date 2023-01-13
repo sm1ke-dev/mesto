@@ -10,7 +10,7 @@ import {
   popupWithImage,
   imageAddingPopup,
   userInfo
-} from "../pages/index.js"
+} from "../index.js"
 
 const handleCardClick = (name, link) => {
   popupWithImage.open(name, link);
