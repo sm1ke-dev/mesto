@@ -35,3 +35,12 @@ export const nameInput = popupNameChange.querySelector('.popup__input_changed_na
 export const jobInput = popupNameChange.querySelector('.popup__input_changed_job');
 export const imagePopup = document.querySelector('.popup_section_card');
 export const formValidators = {};
+
+export const validationConfig = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__submit-button',
+  inactiveButtonClass: 'popup__submit-button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+};
