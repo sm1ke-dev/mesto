@@ -26,30 +26,21 @@ const handleCardClick = (name, link) => {
 }
 
 export const handleNameChangingFormSubmit = (inputValues) => {
-  userInfo.setUserInfo(inputValues[0], inputValues[1]);
+  userInfo.setUserInfo(inputValues.username, inputValues.about);
 
   popupEditProfile.close();
 }
 
 export const handleImageAddingFormSubmit = (inputValues) => {
-  const cardData = [];          // В классе Section метод renderItems() принимает на вход массив.
-  cardData[0] = {               // Если сделать cardData сразу объектом, то метод не сможет его прочитать. Как тогда быть?
-    name: inputValues[0],
-    link: inputValues[1]
-  }
+  const cardData = {
+    name: inputValues.cardname,
+    link: inputValues.link
+  };
+
+  const card = createCard(cardData);
+  cardList.addItem(card);
 
   popupAddCard.close();
-
-  const newCard = new Section({
-    data: cardData,
-    renderer: (item) => {
-      const cardElement = createCard(item);
-
-      newCard.addItem(cardElement);
-    },
-  }, '.elements__list');
-
-  newCard.renderItems();
 }
 
 const enableValidation = (config) => {
