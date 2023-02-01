@@ -12,7 +12,10 @@ import {
   jobInput,
   imagePopup,
   formValidators,
-  validationConfig
+  validationConfig,
+  cohortId,
+  tokenId,
+  profileAvatar
 } from "../utils/constants.js";
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
@@ -21,24 +24,63 @@ import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 
+fetch(`https://nomoreparties.co/v1/${cohortId}/users/me`, {
+  headers: {
+    authorization: tokenId
+  }
+})
+  .then(res => res.json())
+  .then(res => {
+    profileAvatar.src = res.avatar;
+    profileName.textContent = res.name;
+    profileAbout.textContent = res.about;
+  })
+
+
+fetch(`https://mesto.nomoreparties.co/v1/${cohortId}/cards`, {
+  headers: {
+    authorization: tokenId
+  }
+})
+  .then(res => res.json())
+  .then(res => cardList.renderItems(res));
+
 const handleCardClick = (name, link) => {
   popupWithImage.open(name, link);
 }
 
 export const handleNameChangingFormSubmit = (inputValues) => {
-  userInfo.setUserInfo(inputValues.username, inputValues.about);
+  fetch(`https://mesto.nomoreparties.co/v1/${cohortId}/users/me`, {
+    method: 'PATCH',
+    headers: {
+      authorization: tokenId,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      name: inputValues.username,
+      about: inputValues.about
+    })
+  })
+    .then(res => res.json())
+    .then(res => userInfo.setUserInfo(res.name, res.about));
 
   popupEditProfile.close();
 }
 
 export const handleImageAddingFormSubmit = (inputValues) => {
-  const cardData = {
-    name: inputValues.cardname,
-    link: inputValues.link
-  };
-
-  const card = createCard(cardData);
-  cardList.addItem(card);
+  fetch(`https://mesto.nomoreparties.co/v1/${cohortId}/cards`, {
+    method: 'POST',
+    headers: {
+      authorization: tokenId,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      name: inputValues.cardname,
+      link: inputValues.link
+    })
+  })
+    .then(res => res.json())
+    .then(res => cardList.addItem(createCard(res)));
 
   popupAddCard.close();
 }
@@ -63,15 +105,12 @@ const createCard = (item) => {
 }
 
 const cardList = new Section({
-  data: initialCards,
   renderer: (item) => {
     const cardElement = createCard(item);
 
     cardList.addItem(cardElement);
   },
 }, '.elements__list');
-
-cardList.renderItems();
 
 enableValidation(validationConfig);
 

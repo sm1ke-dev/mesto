@@ -25,6 +25,9 @@ export const initialCards = [
   }
 ];
 
+export const cohortId = 'cohort-59';
+export const tokenId = '5cf2770b-0e36-4ac7-b6e9-4160bef8d47d';
+
 export const popupNameChange = document.querySelector('.popup_section_info');
 export const openButtonNamePopup = document.querySelector('.profile__edit-button');
 export const popupAddImage = document.querySelector('.popup_section_image');
@@ -35,6 +38,7 @@ export const nameInput = popupNameChange.querySelector('.popup__input_changed_na
 export const jobInput = popupNameChange.querySelector('.popup__input_changed_job');
 export const imagePopup = document.querySelector('.popup_section_card');
 export const formValidators = {};
+export const profileAvatar = document.querySelector('.profile__avatar');
 
 export const validationConfig = {
   formSelector: '.popup__form',
