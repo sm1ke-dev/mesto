@@ -1,7 +1,6 @@
 import './index.css';
 
 import {
-  initialCards,
   popupNameChange,
   openButtonNamePopup,
   popupAddImage,
@@ -15,7 +14,8 @@ import {
   validationConfig,
   cohortId,
   tokenId,
-  profileAvatar
+  profileAvatar,
+  cardDeletingPopup
 } from "../utils/constants.js";
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
@@ -23,6 +23,7 @@ import Section from "../components/Section.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
+import SubmitPopup from "../components/SubmitPopup.js";
 
 fetch(`https://nomoreparties.co/v1/${cohortId}/users/me`, {
   headers: {
@@ -62,9 +63,10 @@ export const handleNameChangingFormSubmit = (inputValues) => {
     })
   })
     .then(res => res.json())
-    .then(res => userInfo.setUserInfo(res.name, res.about));
-
-  popupEditProfile.close();
+    .then(res => {
+      userInfo.setUserInfo(res.name, res.about);
+      popupEditProfile.close();
+    });
 }
 
 export const handleImageAddingFormSubmit = (inputValues) => {
@@ -80,9 +82,28 @@ export const handleImageAddingFormSubmit = (inputValues) => {
     })
   })
     .then(res => res.json())
-    .then(res => cardList.addItem(createCard(res)));
+    .then(res => {
+      cardList.addItem(createCard(res));
+      popupAddCard.close();
+    });
+}
 
-  popupAddCard.close();
+const deleteCard = (cardId, cardElement) => {
+  fetch(`https://mesto.nomoreparties.co/v1/${cohortId}/cards/${cardId}`, {
+    method: 'DELETE',
+    headers: {
+      authorization: tokenId
+    }
+  })
+    .then(() => {
+      cardElement.remove();
+      submitPopup.close();
+    })
+}
+
+const handleDeleteButton = (cardId, cardElement) => {
+  submitPopup.sendActionData(cardId, cardElement)
+  submitPopup.open()
 }
 
 const enableValidation = (config) => {
@@ -98,7 +119,7 @@ const enableValidation = (config) => {
 };
 
 const createCard = (item) => {
-  const card = new Card(item, '#card-template', handleCardClick);
+  const card = new Card(item, '#card-template', handleCardClick, handleDeleteButton);
   const cardElement = card.generateCard();
 
   return cardElement;
@@ -126,6 +147,8 @@ openButtonImagePopup.addEventListener('click', () => {
   formValidators['update-image'].resetValidation();
   popupAddCard.open();
 });
+
+const submitPopup = new SubmitPopup(cardDeletingPopup, deleteCard);
 
 const popupEditProfile = new PopupWithForm(popupNameChange, handleNameChangingFormSubmit);
 

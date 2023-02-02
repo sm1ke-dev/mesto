@@ -64,6 +64,14 @@
       </div>
     </section>
 
+    <section class="popup popup_section_delete">
+      <div class="popup__container popup__container_section_delete">
+        <button type="reset" class="popup__reset-button popup__reset-button_close_main-popups" aria-label="Закрытие попапа, добавляющего карточки"></button>
+        <h2 class="popup__title">Вы уверены?</h2>
+        <button type="submit" class="popup__submit-button popup__submit-button_section_delete">Да</button>
+      </div>
+    </section>
+
     <div class="popup popup_section_card">
       <div class="popup__image-container">
         <button type="reset" class="popup__reset-button popup__reset-button_close_image-popups" aria-label="Закрытие попапа просмотра карточки"></button>
@@ -79,7 +87,10 @@
       <img src="#" alt="Картинка" class="element__image">
       <div class="element__info-wrapper">
         <h2 class="element__name"></h2>
-        <button type="button" class="element__like-button" aria-label="Кнопка лайка карточки"></button>
+        <div class="element__like-wrapper">
+          <button type="button" class="element__like-button" aria-label="Кнопка лайка карточки"></button>
+          <p class="element__likes-number"></p>
+        </div>
       </div>
     </li>
   </template>

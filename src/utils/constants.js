@@ -39,6 +39,7 @@ export const jobInput = popupNameChange.querySelector('.popup__input_changed_job
 export const imagePopup = document.querySelector('.popup_section_card');
 export const formValidators = {};
 export const profileAvatar = document.querySelector('.profile__avatar');
+export const cardDeletingPopup = document.querySelector('.popup_section_delete');
 
 export const validationConfig = {
   formSelector: '.popup__form',
