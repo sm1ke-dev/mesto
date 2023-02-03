@@ -40,6 +40,9 @@ export const imagePopup = document.querySelector('.popup_section_card');
 export const formValidators = {};
 export const profileAvatar = document.querySelector('.profile__avatar');
 export const cardDeletingPopup = document.querySelector('.popup_section_delete');
+export const avatarContainer = document.querySelector('.profile__avatar-wrapper');
+export const avatarUpdateIcon = document.querySelector('.profile__avatar-edit');
+export const popupAvatarChange = document.querySelector('.popup_section_avatar');
 
 export const validationConfig = {
   formSelector: '.popup__form',
