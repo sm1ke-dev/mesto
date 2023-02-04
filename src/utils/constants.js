@@ -25,9 +25,6 @@ export const initialCards = [
   }
 ];
 
-export const cohortId = 'cohort-59';
-export const tokenId = '5cf2770b-0e36-4ac7-b6e9-4160bef8d47d';
-
 export const popupNameChange = document.querySelector('.popup_section_info');
 export const openButtonNamePopup = document.querySelector('.profile__edit-button');
 export const popupAddImage = document.querySelector('.popup_section_image');
@@ -43,6 +40,10 @@ export const cardDeletingPopup = document.querySelector('.popup_section_delete')
 export const avatarContainer = document.querySelector('.profile__avatar-wrapper');
 export const avatarUpdateIcon = document.querySelector('.profile__avatar-edit');
 export const popupAvatarChange = document.querySelector('.popup_section_avatar');
+export const avatarPopupSubmitButton = popupAvatarChange.querySelector('.popup__submit-button_section_avatar');
+export const cardDeletingPopupSubmitButton = cardDeletingPopup.querySelector('.popup__submit-button_section_delete');
+export const addImagePopupSubmitButton = popupAddImage.querySelector('.popup__submit-button');
+export const nameChangingPopupSubmitButton = popupNameChange.querySelector('.popup__submit-button');
 
 export const validationConfig = {
   formSelector: '.popup__form',

@@ -12,13 +12,15 @@ import {
   imagePopup,
   formValidators,
   validationConfig,
-  cohortId,
-  tokenId,
   profileAvatar,
   cardDeletingPopup,
   avatarContainer,
   avatarUpdateIcon,
-  popupAvatarChange
+  popupAvatarChange,
+  avatarPopupSubmitButton,
+  cardDeletingPopupSubmitButton,
+  addImagePopupSubmitButton,
+  nameChangingPopupSubmitButton
 } from "../utils/constants.js";
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
@@ -27,96 +29,58 @@ import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 import SubmitPopup from "../components/SubmitPopup.js";
+import Api from "../components/Api.js"
 
-fetch(`https://nomoreparties.co/v1/${cohortId}/users/me`, {
-  headers: {
-    authorization: tokenId
-  }
-})
-  .then(res => res.json())
-  .then(res => {
-    profileAvatar.src = res.avatar;
-    profileName.textContent = res.name;
-    profileAbout.textContent = res.about;
-  })
-
-
-fetch(`https://mesto.nomoreparties.co/v1/${cohortId}/cards`, {
-  headers: {
-    authorization: tokenId
-  }
-})
-  .then(res => res.json())
-  .then(res => cardList.renderItems(res));
+const handleInitialCards = (cards) => {
+  cardList.renderItems(cards)
+}
 
 const handleCardClick = (name, link) => {
   popupWithImage.open(name, link);
 }
 
-export const handleNameChangingFormSubmit = (inputValues) => {
-  fetch(`https://mesto.nomoreparties.co/v1/${cohortId}/users/me`, {
-    method: 'PATCH',
-    headers: {
-      authorization: tokenId,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      name: inputValues.username,
-      about: inputValues.about
-    })
-  })
-    .then(res => res.json())
-    .then(res => {
-      userInfo.setUserInfo(res.name, res.about);
-      popupEditProfile.close();
-    });
+const handleNameChangingFormSubmit = (inputValues) => {
+  nameChangingPopupSubmitButton.textContent = 'Сохранение...';
+  api.changeName(inputValues, updateName);
 }
 
-export const handleImageAddingFormSubmit = (inputValues) => {
-  fetch(`https://mesto.nomoreparties.co/v1/${cohortId}/cards`, {
-    method: 'POST',
-    headers: {
-      authorization: tokenId,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      name: inputValues.cardname,
-      link: inputValues.link
-    })
-  })
-    .then(res => res.json())
-    .then(res => {
-      cardList.addItem(createCard(res));
-      popupAddCard.close();
-    });
+const updateName = (profileData) => {
+  userInfo.setUserInfo(profileData.name, profileData.about);
+  popupEditProfile.close();
+  nameChangingPopupSubmitButton.textContent = 'Сохранить';
+}
+
+const handleImageAddingFormSubmit = (inputValues) => {
+  addImagePopupSubmitButton.textContent = 'Создание...';
+  api.addCard(inputValues, addCard);
+}
+
+const addCard = (cardData) => {
+  cardList.addItem(createCard(cardData));
+  popupAddCard.close();
+  addImagePopupSubmitButton.textContent = 'Создать';
 }
 
 const handleAvatarChangingFormSubmit = (inputValue) => {
-  fetch(`https://mesto.nomoreparties.co/v1/${cohortId}/users/me/avatar`, {
-    method: 'PATCH',
-    headers: {
-      authorization: tokenId,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      avatar: inputValue.link
-    })
-  })
-    .then(res => res.json())
-    .then(res => profileAvatar.src = res.avatar)
+  avatarPopupSubmitButton.textContent = 'Сохранение...';
+  api.updateAvatar(inputValue, updateAvatar);
 }
 
-const deleteCard = (cardId, cardElement) => {
-  fetch(`https://mesto.nomoreparties.co/v1/${cohortId}/cards/${cardId}`, {
-    method: 'DELETE',
-    headers: {
-      authorization: tokenId
-    }
-  })
-    .then(() => {
-      cardElement.remove();
-      submitPopup.close();
-    })
+const updateAvatar = (data) => {
+  profileAvatar.src = data.avatar;
+  popupEditAvatar.close();
+  avatarPopupSubmitButton.textContent = 'Сохранить';
+}
+
+const handleDeletingSubmit = (cardId, cardElement) => {
+  cardDeletingPopupSubmitButton.textContent = 'Удаление...';
+  api.deleteCard(cardId, cardElement, deleteCard);
+}
+
+const deleteCard = (cardElement) => {
+  cardElement.remove();
+  submitPopup.close();
+  cardDeletingPopupSubmitButton.textContent = 'Ок';
 }
 
 const handleDeleteButton = (cardId, cardElement) => {
@@ -126,25 +90,11 @@ const handleDeleteButton = (cardId, cardElement) => {
 
 const handleLikeButton = (likeButton, cardId, numberOfLikesElement) => {
   if (likeButton.classList.contains('element__like-button_is-active')) {
-    fetch(`https://mesto.nomoreparties.co/v1/${cohortId}/cards/${cardId}/likes`, {
-      method: 'DELETE',
-      headers: {
-        authorization: tokenId
-      }
-    })
-      .then(res => res.json())
-      .then(res => updateNumberOfLikes(res.likes, numberOfLikesElement))
+    api.removeLike(cardId, numberOfLikesElement, updateNumberOfLikes);
 
     likeButton.classList.remove('element__like-button_is-active');
   } else {
-    fetch(`https://mesto.nomoreparties.co/v1/${cohortId}/cards/${cardId}/likes`, {
-      method: 'PUT',
-      headers: {
-        authorization: tokenId
-      }
-    })
-      .then(res => res.json())
-      .then(res => updateNumberOfLikes(res.likes, numberOfLikesElement))
+    api.putLike(cardId, numberOfLikesElement, updateNumberOfLikes);
 
     likeButton.classList.add('element__like-button_is-active');
   }
@@ -214,9 +164,7 @@ avatarContainer.addEventListener('click', () => {
   popupEditAvatar.open();
 })
 
-
-
-const submitPopup = new SubmitPopup(cardDeletingPopup, deleteCard);
+const submitPopup = new SubmitPopup(cardDeletingPopup, handleDeletingSubmit);
 
 const popupEditAvatar = new PopupWithForm(popupAvatarChange, handleAvatarChangingFormSubmit)
 
@@ -227,3 +175,15 @@ const popupWithImage = new PopupWithImage(imagePopup);
 const popupAddCard = new PopupWithForm(popupAddImage, handleImageAddingFormSubmit);
 
 const userInfo = new UserInfo(profileName, profileAbout);
+
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-59',
+  headers: {
+    authorization: '5cf2770b-0e36-4ac7-b6e9-4160bef8d47d',
+    'Content-Type': 'application/json'
+  }
+});
+
+api.getUserInfo();
+
+api.getInitialCards(handleInitialCards);
