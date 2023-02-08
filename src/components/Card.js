@@ -1,5 +1,5 @@
 export default class Card {
-  constructor(card, templateSelector, handleCardClick, handleDeleteButton, handleLikeButton) {
+  constructor(card, templateSelector, handleCardClick, handleDeleteButton, putLike, removeLike, userId) {
     this._name = card.name;
     this._link = card.link;
     this._templateSelector = templateSelector;
@@ -8,7 +8,9 @@ export default class Card {
     this._cardOwner = card.owner._id;
     this._handleDeleteButton = handleDeleteButton;
     this._cardId = card._id;
-    this._handleLikeButton = handleLikeButton;
+    this._putLike = putLike;
+    this._removeLike = removeLike;
+    this._userId = userId;
   }
 
   _getTemplate() {
@@ -25,18 +27,28 @@ export default class Card {
     this._deleteButton.classList.add('element__trash-button_shown');
   }
 
-  _setEventListeners() {
-    this._likeButton.addEventListener('click', () => this._handleLikeButton(this._likeButton, this._cardId, this._numberOfLikesElement));
-
-    this._deleteButton.addEventListener('click', () => this._handleDeleteButton(this._cardId, this._element));
-
-    this._cardImage.addEventListener('click', () => this._handleCardClick(this._name, this._link));
+  _handleLikeButton() {
+    if (this._likeButton.classList.contains('element__like-button_is-active')) {
+      this._removeLike(this);
+    } else {
+      this._putLike(this);
+    }
   }
 
-  _showNumberOfLikes() {
-    if (this._numberOfLikes.length > 0) {
-      this._numberOfLikesElement.textContent = this._numberOfLikes.length;
+  _setEventListeners() {
+    this._likeButton.addEventListener('click', () => this._handleLikeButton());
+
+    this._deleteButton.addEventListener('click', () => this._handleDeleteButton(this));
+
+    this._cardImage.addEventListener('click', () => this._handleCardClick(this));
+  }
+
+  _handleNumberOfLikes(numberOfLikes) {
+    if (numberOfLikes.length > 0) {
+      this._numberOfLikesElement.textContent = numberOfLikes.length;
       this._numberOfLikesElement.classList.add('element__likes-number_shown');
+    } else {
+      this._numberOfLikesElement.classList.remove('element__likes-number_shown');
     }
   }
 
@@ -52,9 +64,9 @@ export default class Card {
     this._cardImage.src = this._link;
     this._cardImage.alt = this._name;
 
-    this._showNumberOfLikes();
+    this._handleNumberOfLikes(this._numberOfLikes);
 
-    if (this._cardOwner === '280842f93b0699fd24e893f6') {
+    if (this._cardOwner === this._userId) {
       this._showDeleteButton();
     }
 

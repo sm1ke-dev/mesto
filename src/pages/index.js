@@ -5,8 +5,6 @@ import {
   openButtonNamePopup,
   popupAddImage,
   openButtonImagePopup,
-  profileName,
-  profileAbout,
   nameInput,
   jobInput,
   imagePopup,
@@ -17,10 +15,7 @@ import {
   avatarContainer,
   avatarUpdateIcon,
   popupAvatarChange,
-  avatarPopupSubmitButton,
   cardDeletingPopupSubmitButton,
-  addImagePopupSubmitButton,
-  nameChangingPopupSubmitButton
 } from "../utils/constants.js";
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
@@ -31,82 +26,88 @@ import UserInfo from "../components/UserInfo.js";
 import SubmitPopup from "../components/SubmitPopup.js";
 import Api from "../components/Api.js"
 
+let userId;
+
 const handleInitialCards = (cards) => {
   cardList.renderItems(cards)
 }
 
-const handleCardClick = (name, link) => {
-  popupWithImage.open(name, link);
+const handleCardClick = (card) => {
+  popupWithImage.open(card._name, card._link);
 }
 
 const handleNameChangingFormSubmit = (inputValues) => {
-  nameChangingPopupSubmitButton.textContent = 'Сохранение...';
-  api.changeName(inputValues, updateName);
+  popupEditProfile.renderLoading(true);
+  api.changeName(inputValues)
+    .then(res => updateName(res))
+    .catch(err => console.log(err))
+    .finally(() => popupEditProfile.renderLoading(false));
 }
 
 const updateName = (profileData) => {
-  userInfo.setUserInfo(profileData.name, profileData.about);
+  userInfo.setUserInfo(profileData);
   popupEditProfile.close();
-  nameChangingPopupSubmitButton.textContent = 'Сохранить';
 }
 
 const handleImageAddingFormSubmit = (inputValues) => {
-  addImagePopupSubmitButton.textContent = 'Создание...';
-  api.addCard(inputValues, addCard);
+  popupAddCard.renderLoading(true, 'Создание...');
+  api.addCard(inputValues)
+    .then(res => addCard(res))
+    .catch(err => console.log(err))
+    .finally(() => popupAddCard.renderLoading(false));
 }
 
 const addCard = (cardData) => {
   cardList.addItem(createCard(cardData));
   popupAddCard.close();
-  addImagePopupSubmitButton.textContent = 'Создать';
 }
 
 const handleAvatarChangingFormSubmit = (inputValue) => {
-  avatarPopupSubmitButton.textContent = 'Сохранение...';
-  api.updateAvatar(inputValue, updateAvatar);
+  popupEditAvatar.renderLoading(true);
+  api.updateAvatar(inputValue)
+    .then(res => updateAvatar(res))
+    .catch(err => console.log(err))
+    .finally(() => popupEditAvatar.renderLoading(false));
 }
 
 const updateAvatar = (data) => {
-  profileAvatar.src = data.avatar;
+  userInfo.setUserInfo(data);
   popupEditAvatar.close();
-  avatarPopupSubmitButton.textContent = 'Сохранить';
 }
 
 const handleDeletingSubmit = (cardId, cardElement) => {
   cardDeletingPopupSubmitButton.textContent = 'Удаление...';
-  api.deleteCard(cardId, cardElement, deleteCard);
+  api.deleteCard(cardId)
+    .then(() => deleteCard(cardElement))
+    .finally(() => cardDeletingPopupSubmitButton.textContent = 'Да');
 }
 
 const deleteCard = (cardElement) => {
   cardElement.remove();
   submitPopup.close();
-  cardDeletingPopupSubmitButton.textContent = 'Ок';
 }
 
-const handleDeleteButton = (cardId, cardElement) => {
-  submitPopup.sendActionData(cardId, cardElement)
+const handleDeleteButton = (card) => {
+  submitPopup.sendActionData(card._cardId, card._element)
   submitPopup.open()
 }
 
-const handleLikeButton = (likeButton, cardId, numberOfLikesElement) => {
-  if (likeButton.classList.contains('element__like-button_is-active')) {
-    api.removeLike(cardId, numberOfLikesElement, updateNumberOfLikes);
-
-    likeButton.classList.remove('element__like-button_is-active');
-  } else {
-    api.putLike(cardId, numberOfLikesElement, updateNumberOfLikes);
-
-    likeButton.classList.add('element__like-button_is-active');
-  }
+const removeLike = (card) => {
+  api.removeLike(card._cardId)
+    .then(res => {
+      card._handleNumberOfLikes(res.likes);
+      card._likeButton.classList.remove('element__like-button_is-active');
+    })
+    .catch(err => console.log(err));
 }
 
-const updateNumberOfLikes = (numberOfLikes, numberOfLikesElement) => {
-  if (numberOfLikes.length > 0) {
-    numberOfLikesElement.textContent = numberOfLikes.length;
-    numberOfLikesElement.classList.add('element__likes-number_shown');
-  } else {
-    numberOfLikesElement.classList.remove('element__likes-number_shown');
-  }
+const putLike = (card) => {
+  api.putLike(card._cardId)
+    .then(res => {
+      card._handleNumberOfLikes(res.likes);
+      card._likeButton.classList.add('element__like-button_is-active');
+    })
+    .catch(err => console.log(err));
 }
 
 const enableValidation = (config) => {
@@ -122,7 +123,7 @@ const enableValidation = (config) => {
 };
 
 const createCard = (item) => {
-  const card = new Card(item, '#card-template', handleCardClick, handleDeleteButton, handleLikeButton);
+  const card = new Card(item, '#card-template', handleCardClick, handleDeleteButton, putLike, removeLike, userId);
   const cardElement = card.generateCard();
 
   return cardElement;
@@ -174,7 +175,7 @@ const popupWithImage = new PopupWithImage(imagePopup);
 
 const popupAddCard = new PopupWithForm(popupAddImage, handleImageAddingFormSubmit);
 
-const userInfo = new UserInfo(profileName, profileAbout);
+const userInfo = new UserInfo();
 
 const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-59',
@@ -184,6 +185,11 @@ const api = new Api({
   }
 });
 
-api.getUserInfo();
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(([userData, cards]) => {
+    userInfo.setUserInfo(userData);
+    userId = userData._id;
 
-api.getInitialCards(handleInitialCards);
+    handleInitialCards(cards);
+  })
+  .catch(err => console.log(err));

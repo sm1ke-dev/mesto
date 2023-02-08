@@ -29,8 +29,6 @@ export const popupNameChange = document.querySelector('.popup_section_info');
 export const openButtonNamePopup = document.querySelector('.profile__edit-button');
 export const popupAddImage = document.querySelector('.popup_section_image');
 export const openButtonImagePopup = document.querySelector('.profile__add-button');
-export const profileName = document.querySelector('.profile__name');
-export const profileAbout = document.querySelector('.profile__about');
 export const nameInput = popupNameChange.querySelector('.popup__input_changed_name');
 export const jobInput = popupNameChange.querySelector('.popup__input_changed_job');
 export const imagePopup = document.querySelector('.popup_section_card');
@@ -40,10 +38,7 @@ export const cardDeletingPopup = document.querySelector('.popup_section_delete')
 export const avatarContainer = document.querySelector('.profile__avatar-wrapper');
 export const avatarUpdateIcon = document.querySelector('.profile__avatar-edit');
 export const popupAvatarChange = document.querySelector('.popup_section_avatar');
-export const avatarPopupSubmitButton = popupAvatarChange.querySelector('.popup__submit-button_section_avatar');
 export const cardDeletingPopupSubmitButton = cardDeletingPopup.querySelector('.popup__submit-button_section_delete');
-export const addImagePopupSubmitButton = popupAddImage.querySelector('.popup__submit-button');
-export const nameChangingPopupSubmitButton = popupNameChange.querySelector('.popup__submit-button');
 
 export const validationConfig = {
   formSelector: '.popup__form',
