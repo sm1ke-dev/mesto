@@ -79,6 +79,7 @@ const handleDeletingSubmit = (cardId, cardElement) => {
   cardDeletingPopupSubmitButton.textContent = 'Удаление...';
   api.deleteCard(cardId)
     .then(() => deleteCard(cardElement))
+    .catch(err => console.log(err))
     .finally(() => cardDeletingPopupSubmitButton.textContent = 'Да');
 }
 
@@ -88,24 +89,22 @@ const deleteCard = (cardElement) => {
 }
 
 const handleDeleteButton = (card) => {
-  submitPopup.sendActionData(card._cardId, card._element)
+  submitPopup.sendActionData(card.cardId, card.element)
   submitPopup.open()
 }
 
 const removeLike = (card) => {
-  api.removeLike(card._cardId)
+  api.removeLike(card.cardId)
     .then(res => {
-      card._handleNumberOfLikes(res.likes);
-      card._likeButton.classList.remove('element__like-button_is-active');
+      card.removeLike(res.likes);
     })
     .catch(err => console.log(err));
 }
 
 const putLike = (card) => {
-  api.putLike(card._cardId)
+  api.putLike(card.cardId)
     .then(res => {
-      card._handleNumberOfLikes(res.likes);
-      card._likeButton.classList.add('element__like-button_is-active');
+      card.putLike(res.likes);
     })
     .catch(err => console.log(err));
 }
@@ -143,6 +142,7 @@ openButtonNamePopup.addEventListener('click', () => {
   const userInfoValues = userInfo.getUserInfo();
   nameInput.value = userInfoValues.name;
   jobInput.value = userInfoValues.about;
+  formValidators['update-info'].resetValidation();
 
   popupEditProfile.open();
 });
@@ -175,7 +175,11 @@ const popupWithImage = new PopupWithImage(imagePopup);
 
 const popupAddCard = new PopupWithForm(popupAddImage, handleImageAddingFormSubmit);
 
-const userInfo = new UserInfo();
+const userInfo = new UserInfo(
+  '.profile__name',
+  '.profile__about',
+  '.profile__avatar'
+  );
 
 const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-59',
