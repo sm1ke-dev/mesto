@@ -52,9 +52,13 @@ export default class Card {
     }
   }
 
+  _activateLikeButton() {
+    this._likeButton.classList.add('element__like-button_is-active');
+  }
+
   putLike(likes) {
     this._handleNumberOfLikes(likes);
-    this._likeButton.classList.add('element__like-button_is-active');
+    this._activateLikeButton();
   }
 
   removeLike(likes) {
@@ -75,6 +79,12 @@ export default class Card {
     this._cardImage.alt = this._name;
 
     this._handleNumberOfLikes(this._numberOfLikes);
+
+    this._numberOfLikes.forEach(like => {
+      if (like._id === this._userId) {
+        this._activateLikeButton();
+      }
+    })
 
     if (this._cardOwner === this._userId) {
       this._showDeleteButton();
